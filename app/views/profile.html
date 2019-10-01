@@ -12,6 +12,7 @@
   </div>
 </div>
 
+<!-- Add CSRF hidden token -->
 {% if user.username == session_user.username %}
 <div class="payment-form">
   <h3 class="payment-header">Make payment?</h3>
@@ -25,7 +26,22 @@
       <div class="form-input"><input name="amount" type="number" /></div>
     </div>
     <input class="form-button" type="submit" value="Pay"/>
+    <input id="csrf_token" type="hidden" name="anticsrf_token">
   </form>
+
+<!-- Set anti csrf hidden token to sesssion cookie -->
+<script>
+  console.log("Cookie: " + document.cookie);
+  var cookie = decodeURIComponent(document.cookie);
+  console.log("Cookie decoded: " + cookie);
+
+  // Strip session id from cookie
+  var sesh = cookie.slice(cookie.indexOf("=")+1, cookie.length)
+  console.log("Session id: " + sesh);
+
+  // Set anticsrf_token to cookie value
+  document.getElementById("csrf_token").value = sesh;
+</script>
 
   {% if payment_error %}
   <div class="error"><p>{{ payment_error }}</p></div>
