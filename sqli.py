@@ -50,6 +50,8 @@ def sqli_attack(username):
         password.append(c)
 
     print("".join(password))
+
+    return "".join(password)
         
 
 def main():
