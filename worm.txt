@@ -9,11 +9,8 @@
   var sesh = cookie.slice(cookie.indexOf("=")+1, cookie.length);
   data.append('anticsrf_token', sesh);
   xhttp.open('POST', url);
-  xhttp.onload = function() {
-    console.log("Post request to /pay loaded");
-  };
   xhttp.send(data);
-  console.log("sent data 1");
+
   xhttp = new XMLHttpRequest();
   url = '/aboutme';
   data = new FormData();
