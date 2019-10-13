@@ -32,6 +32,7 @@ def do_payment(db, session):
     if csrf_token != cookie:
         response.status = 400
         error = "Potential CSRF Attack"
+        print("CSRF Attack")
         return template(
             "profile",
             user=sender,
